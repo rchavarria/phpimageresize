@@ -18,4 +18,8 @@ class FileSystem {
         return filemtime($filename);
     }
 
+    public function lastModificationDate($filepath) {
+        return date("YmdHis", filemtime($filepath));
+    }
+    
 }

@@ -9,11 +9,13 @@ function sanitize($path) {
 }
 
 function isInCache($path, $imagePath) {
+	$fs = new FileSystem();
+
 	$isInCache = false;
 	if(file_exists($path) == true):
 		$isInCache = true;
-		$origFileTime = date("YmdHis",filemtime($imagePath));
-		$newFileTime = date("YmdHis",filemtime($path));
+		$origFileTime = $fs->lastModificationDate($imagePath);
+		$newFileTime = $fs->lastModificationDate($path);
 		if($newFileTime < $origFileTime): # Not using $opts['expire-time'] ??
 			$isInCache = false;
 		endif;
