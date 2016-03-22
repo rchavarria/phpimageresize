@@ -15,11 +15,7 @@ class FileCache {
 
         $origFileTime = $this->fileSystem->lastModificationDate($imagePath);
         $newFileTime = $this->fileSystem->lastModificationDate($path);
-        if ($newFileTime < $origFileTime) {
-            return false;
-        }
-
-        return true;
+        return $newFileTime >= $origFileTime;
     }
 
 }
