@@ -13,14 +13,13 @@ class FileCache {
             return false;
         }
 
-        $isInCache = true;
         $origFileTime = $this->fileSystem->lastModificationDate($imagePath);
         $newFileTime = $this->fileSystem->lastModificationDate($path);
-        if($newFileTime < $origFileTime): # Not using $opts['expire-time'] ??
-            $isInCache = false;
-        endif;
+        if ($newFileTime < $origFileTime) {
+            return false;
+        }
 
-        return $isInCache;
+        return true;
     }
 
 }
