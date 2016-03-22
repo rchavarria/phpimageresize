@@ -9,14 +9,15 @@ class FileCache {
     }
 
     function isInCache($path, $imagePath) {
-        $isInCache = false;
-        if($this->fileSystem->file_exists($path) == true):
-            $isInCache = true;
-            $origFileTime = $this->fileSystem->lastModificationDate($imagePath);
-            $newFileTime = $this->fileSystem->lastModificationDate($path);
-            if($newFileTime < $origFileTime): # Not using $opts['expire-time'] ??
-                $isInCache = false;
-            endif;
+        if (!$this->fileSystem->file_exists($path)) {
+            return false;
+        }
+
+        $isInCache = true;
+        $origFileTime = $this->fileSystem->lastModificationDate($imagePath);
+        $newFileTime = $this->fileSystem->lastModificationDate($path);
+        if($newFileTime < $origFileTime): # Not using $opts['expire-time'] ??
+            $isInCache = false;
         endif;
 
         return $isInCache;
