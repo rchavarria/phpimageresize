@@ -22,6 +22,11 @@ class FileCacheTest extends PHPUnit_Framework_TestCase {
         $this->assertTrue($isInCache, 'Should be in cache when existing version is newer than the original one');
     }
 
+    public function testFileIsCachedWhenExistingVersionIsSameDateAsOriginalFile() {
+        $isInCache = $this->exerciseIsInCache(5, 5);
+        $this->assertTrue($isInCache, 'Should be in cache when both versions are the same date');
+    }
+
     private function exerciseIsInCache($existingVersionAge, $originalVersionAge) {
         $existingVersionPath = 'existing-version-path.jpg';
         $originalVersionPath = 'original-version-path.jpg';
