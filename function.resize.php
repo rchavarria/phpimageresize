@@ -3,25 +3,11 @@
 require 'ImagePath.php';
 require 'Configuration.php';
 require 'Resizer.php';
+require 'FileSystem.php';
+require 'FileCache.php';
 
 function sanitize($path) {
 	return urldecode($path);
-}
-
-function isInCache($path, $imagePath) {
-	$fs = new FileSystem();
-
-	$isInCache = false;
-	if(file_exists($path) == true):
-		$isInCache = true;
-		$origFileTime = $fs->lastModificationDate($imagePath);
-		$newFileTime = $fs->lastModificationDate($path);
-		if($newFileTime < $origFileTime): # Not using $opts['expire-time'] ??
-			$isInCache = false;
-		endif;
-	endif;
-
-	return $isInCache;
 }
 
 function composeNewPath($imagePath, $configuration) {
@@ -154,7 +140,7 @@ function resize($imagePath,$opts=null){
 
 	$newPath = composeNewPath($imagePath, $configuration);
 
-    $create = !isInCache($newPath, $imagePath);
+    $create = !(new FileCache(new FileSystem()))->isInCache($newPath, $imagePath);
 
 	if($create == true):
 		try {
