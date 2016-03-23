@@ -22,4 +22,15 @@ class ComposeNewPathTest extends PHPUnit_Framework_TestCase {
         $this->assertContains($cachePath, $newPath);
     }
 
+    public function testIncludesComputedFileMD5() {
+        $computedMD5 = '<md5>';
+        $fs = $this->getMock('FileSystem');
+        $fs->method('md5_file')->willReturn($computedMD5);
+        $options = [];
+
+        $configuration = new Configuration($options, $fs);
+        $newPath = $configuration->composeNewPath('file-path.php');
+        $this->assertContains($computedMD5, $newPath);
+    }
+
 }
