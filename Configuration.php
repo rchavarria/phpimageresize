@@ -127,10 +127,12 @@ class Configuration {
     }
 
     protected function composeHeightSignal() {
-        $h = $this->opts[self::HEIGHT_KEY];
-        $heightSignal = !empty($h) ? '_h' . $h : '';
+        $height = $this->opts[self::HEIGHT_KEY];
+        if (empty($height)) {
+            return '';
+        }
 
-        return $heightSignal;
+        return '_h' . $height;
     }
 
 }
