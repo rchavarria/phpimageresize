@@ -80,4 +80,23 @@ class ComposeNewPathTest extends PHPUnit_Framework_TestCase {
         $this->assertNotContains('_sc', $newPath);
     }
 
+    public function testIncludesAWidthSignal() {
+        $width = '312';
+        $fs = $this->getMock('FileSystem');
+        $options = [ Configuration::WIDTH_KEY => $width ];
+
+        $configuration = new Configuration($options, $fs);
+        $newPath = $configuration->composeNewPath('file-path.php');
+        $this->assertContains('_w' . $width, $newPath);
+    }
+
+    public function testDoesNotIncludeAWidthSignal() {
+        $fs = $this->getMock('FileSystem');
+        $options = [];
+
+        $configuration = new Configuration($options, $fs);
+        $newPath = $configuration->composeNewPath('file-path.php');
+        $this->assertNotContains('_w', $newPath);
+    }
+
 }
