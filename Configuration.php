@@ -83,8 +83,6 @@ class Configuration {
 
         $w = $this->opts[self::WIDTH_KEY];
         $h = $this->opts[self::HEIGHT_KEY];
-        $extension = $this->fileSystem->obtainFileExtension($imagePath);
-
         $widthSignal = !empty($w) ? '_w'.$w : '';
         $heightSignal = !empty($h) ? '_h'.$h : '';
 
@@ -94,7 +92,7 @@ class Configuration {
             $heightSignal .
             $this->composeCropSignal() .
             $this->obtainScaleSignal() .
-            $extension;
+            $this->fileSystem->obtainFileExtension($imagePath);
     }
 
     protected function composeCropSignal() {
