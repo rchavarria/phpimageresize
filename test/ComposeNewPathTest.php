@@ -62,4 +62,22 @@ class ComposeNewPathTest extends PHPUnit_Framework_TestCase {
         $this->assertNotContains('_cp', $newPath);
     }
 
+    public function testMarksPathAsScaled() {
+        $fs = $this->getMock('FileSystem');
+        $options = [ Configuration::SCALE_KEY => true ];
+
+        $configuration = new Configuration($options, $fs);
+        $newPath = $configuration->composeNewPath('file-path.php');
+        $this->assertContains('_sc', $newPath);
+    }
+
+    public function testDoesNotMarkPathAsScaled() {
+        $fs = $this->getMock('FileSystem');
+        $options = [ Configuration::SCALE_KEY => false ];
+
+        $configuration = new Configuration($options, $fs);
+        $newPath = $configuration->composeNewPath('file-path.php');
+        $this->assertNotContains('_sc', $newPath);
+    }
+
 }
