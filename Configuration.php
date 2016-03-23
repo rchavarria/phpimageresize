@@ -77,6 +77,10 @@ class Configuration {
     }
     
     public function composeNewPath($imagePath) {
+        if($this->opts[self::OUTPUT_FILENAME_KEY]) {
+            return $this->opts[self::OUTPUT_FILENAME_KEY];
+        }
+
         $w = $this->opts[self::WIDTH_KEY];
         $h = $this->opts[self::HEIGHT_KEY];
         $filename = $this->fileSystem->md5_file($imagePath);
@@ -87,13 +91,7 @@ class Configuration {
         $widthSignal = !empty($w) ? '_w'.$w : '';
         $heightSignal = !empty($h) ? '_h'.$h : '';
 
-        $newPath = $this->obtainCache() .$filename.$widthSignal.$heightSignal.$cropSignal.$scaleSignal.$extension;
-
-        if($this->opts[self::OUTPUT_FILENAME_KEY]) {
-            $newPath = $this->opts[self::OUTPUT_FILENAME_KEY];
-        }
-
-        return $newPath;
+        return $this->obtainCache() . $filename . $widthSignal . $heightSignal . $cropSignal . $scaleSignal . $extension;
     }
     
 }
