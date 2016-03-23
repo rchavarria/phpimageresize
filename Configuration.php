@@ -86,7 +86,6 @@ class Configuration {
         $filename = $this->fileSystem->md5_file($imagePath);
         $extension = $this->fileSystem->obtainFileExtension($imagePath);
 
-        $scaleSignal = $this->obtainScaleSignal();
         $widthSignal = !empty($w) ? '_w'.$w : '';
         $heightSignal = !empty($h) ? '_h'.$h : '';
 
@@ -95,7 +94,7 @@ class Configuration {
             $widthSignal .
             $heightSignal .
             $this->composeCropSignal() .
-            $scaleSignal .
+            $this->obtainScaleSignal() .
             $extension;
     }
 
