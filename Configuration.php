@@ -116,7 +116,11 @@ class Configuration {
             return '';
         }
 
-        return $this->opts[self::SCALE_KEY] == true ? '_sc' : '';
+        if ($this->opts[self::SCALE_KEY] !== true) {
+            return '';
+        }
+
+        return '_sc';
     }
 
 }
