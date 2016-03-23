@@ -81,9 +81,8 @@ class Configuration {
             return $this->opts[self::OUTPUT_FILENAME_KEY];
         }
 
-        $w = $this->opts[self::WIDTH_KEY];
+        $widthSignal = $this->composeWidthSignal();
         $h = $this->opts[self::HEIGHT_KEY];
-        $widthSignal = !empty($w) ? '_w'.$w : '';
         $heightSignal = !empty($h) ? '_h'.$h : '';
 
         return $this->obtainCache() .
@@ -117,6 +116,12 @@ class Configuration {
         }
 
         return '_sc';
+    }
+
+    protected function composeWidthSignal() {
+        $w = $this->opts[self::WIDTH_KEY];
+        $widthSignal = !empty($w) ? '_w' . $w : '';
+        return $widthSignal;
     }
 
 }
