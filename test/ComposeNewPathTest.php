@@ -99,4 +99,23 @@ class ComposeNewPathTest extends PHPUnit_Framework_TestCase {
         $this->assertNotContains('_w', $newPath);
     }
 
+    public function testIncludesAHeightSignal() {
+        $height = '1023';
+        $fs = $this->getMock('FileSystem');
+        $options = [ Configuration::HEIGHT_KEY => $height ];
+
+        $configuration = new Configuration($options, $fs);
+        $newPath = $configuration->composeNewPath('file-path.php');
+        $this->assertContains('_h' . $height, $newPath);
+    }
+
+    public function testDoesNotIncludeAHeightSignal() {
+        $fs = $this->getMock('FileSystem');
+        $options = [];
+
+        $configuration = new Configuration($options, $fs);
+        $newPath = $configuration->composeNewPath('file-path.php');
+        $this->assertNotContains('_h', $newPath);
+    }
+
 }
