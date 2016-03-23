@@ -95,7 +95,11 @@ class Configuration {
     }
 
     protected function composeCropSignal() {
-        return isset($this->opts[self::CROP_KEY]) && $this->opts[self::CROP_KEY] == true ? '_cp' : '';
+        if (!isset($this->opts[self::CROP_KEY])) {
+            return '';
+        }
+
+        return $this->opts[self::CROP_KEY] == true ? '_cp' : '';
     }
 
 }
