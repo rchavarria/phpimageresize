@@ -2,6 +2,30 @@
 
 class ComposeNewPathTest extends PHPUnit_Framework_TestCase {
 
+    public function testDoesNotMarkPathAsCroppedByDefault() {
+        $configuration = new Configuration([], $this->getMock('FileSystem'));
+        $newPath = $configuration->composeNewPath('file-path.php');
+        $this->assertNotContains('_cp', $newPath);
+    }
+
+    public function testDoesNotMarkPathAsScaledByDefault() {
+        $configuration = new Configuration([], $this->getMock('FileSystem'));
+        $newPath = $configuration->composeNewPath('file-path.php');
+        $this->assertNotContains('_sc', $newPath);
+    }
+
+    public function testDoesNotIncludeAWidthSignalByDefault() {
+        $configuration = new Configuration([], $this->getMock('FileSystem'));
+        $newPath = $configuration->composeNewPath('file-path.php');
+        $this->assertNotContains('_w', $newPath);
+    }
+
+    public function testDoesNotIncludeAHeightSignalByDefault() {
+        $configuration = new Configuration([], $this->getMock('FileSystem'));
+        $newPath = $configuration->composeNewPath('file-path.php');
+        $this->assertNotContains('_h', $newPath);
+    }
+
     public function testCanBeConfiguredWithAnOption() {
         $fs = $this->getMock('FileSystem');
         $expectedPath = 'new-path-to-the-heaven.php';
@@ -53,15 +77,6 @@ class ComposeNewPathTest extends PHPUnit_Framework_TestCase {
         $this->assertContains('_cp', $newPath);
     }
 
-    public function testDoesNotMarkPathAsCropped() {
-        $fs = $this->getMock('FileSystem');
-        $options = [ Configuration::CROP_KEY => false ];
-
-        $configuration = new Configuration($options, $fs);
-        $newPath = $configuration->composeNewPath('file-path.php');
-        $this->assertNotContains('_cp', $newPath);
-    }
-
     public function testMarksPathAsScaled() {
         $fs = $this->getMock('FileSystem');
         $options = [ Configuration::SCALE_KEY => true ];
@@ -69,15 +84,6 @@ class ComposeNewPathTest extends PHPUnit_Framework_TestCase {
         $configuration = new Configuration($options, $fs);
         $newPath = $configuration->composeNewPath('file-path.php');
         $this->assertContains('_sc', $newPath);
-    }
-
-    public function testDoesNotMarkPathAsScaled() {
-        $fs = $this->getMock('FileSystem');
-        $options = [ Configuration::SCALE_KEY => false ];
-
-        $configuration = new Configuration($options, $fs);
-        $newPath = $configuration->composeNewPath('file-path.php');
-        $this->assertNotContains('_sc', $newPath);
     }
 
     public function testIncludesAWidthSignal() {
@@ -90,15 +96,6 @@ class ComposeNewPathTest extends PHPUnit_Framework_TestCase {
         $this->assertContains('_w' . $width, $newPath);
     }
 
-    public function testDoesNotIncludeAWidthSignal() {
-        $fs = $this->getMock('FileSystem');
-        $options = [];
-
-        $configuration = new Configuration($options, $fs);
-        $newPath = $configuration->composeNewPath('file-path.php');
-        $this->assertNotContains('_w', $newPath);
-    }
-
     public function testIncludesAHeightSignal() {
         $height = '1023';
         $fs = $this->getMock('FileSystem');
@@ -107,15 +104,6 @@ class ComposeNewPathTest extends PHPUnit_Framework_TestCase {
         $configuration = new Configuration($options, $fs);
         $newPath = $configuration->composeNewPath('file-path.php');
         $this->assertContains('_h' . $height, $newPath);
-    }
-
-    public function testDoesNotIncludeAHeightSignal() {
-        $fs = $this->getMock('FileSystem');
-        $options = [];
-
-        $configuration = new Configuration($options, $fs);
-        $newPath = $configuration->composeNewPath('file-path.php');
-        $this->assertNotContains('_h', $newPath);
     }
 
 }

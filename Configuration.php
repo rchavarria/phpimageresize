@@ -23,7 +23,7 @@ class Configuration {
 
         $defaults = array(
             self::CROP_KEY => false,
-            self::SCALE_KEY => 'false',
+            self::SCALE_KEY => false,
             'thumbnail' => false,
             'maxOnly' => false,
             'canvas-color' => 'transparent',
