@@ -83,14 +83,13 @@ class Configuration {
 
         $w = $this->opts[self::WIDTH_KEY];
         $h = $this->opts[self::HEIGHT_KEY];
-        $filename = $this->fileSystem->md5_file($imagePath);
         $extension = $this->fileSystem->obtainFileExtension($imagePath);
 
         $widthSignal = !empty($w) ? '_w'.$w : '';
         $heightSignal = !empty($h) ? '_h'.$h : '';
 
         return $this->obtainCache() .
-            $filename .
+            $this->fileSystem->md5_file($imagePath) .
             $widthSignal .
             $heightSignal .
             $this->composeCropSignal() .
