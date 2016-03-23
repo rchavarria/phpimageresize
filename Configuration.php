@@ -86,7 +86,7 @@ class Configuration {
         $filename = $this->fileSystem->md5_file($imagePath);
         $extension = $this->fileSystem->obtainFileExtension($imagePath);
 
-        $scaleSignal = isset($this->opts[self::SCALE_KEY]) && $this->opts[self::SCALE_KEY] == true ? '_sc' : '';
+        $scaleSignal = $this->obtainScaleSignal();
         $widthSignal = !empty($w) ? '_w'.$w : '';
         $heightSignal = !empty($h) ? '_h'.$h : '';
 
@@ -109,6 +109,10 @@ class Configuration {
         }
 
         return '_cp';
+    }
+
+    protected function obtainScaleSignal() {
+        return isset($this->opts[self::SCALE_KEY]) && $this->opts[self::SCALE_KEY] == true ? '_sc' : '';
     }
 
 }
