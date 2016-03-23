@@ -119,9 +119,12 @@ class Configuration {
     }
 
     protected function composeWidthSignal() {
-        $w = $this->opts[self::WIDTH_KEY];
-        $widthSignal = !empty($w) ? '_w' . $w : '';
-        return $widthSignal;
+        $width = $this->opts[self::WIDTH_KEY];
+        if (empty($width)) {
+            return '';
+        }
+
+        return '_w' . $width;
     }
 
 }
