@@ -81,16 +81,31 @@ class Configuration {
             return $this->opts[self::OUTPUT_FILENAME_KEY];
         }
 
-        $widthSignal = $this->composeWidthSignal();
-        $heightSignal = $this->composeHeightSignal();
-
         return $this->obtainCache() .
             $this->fileSystem->md5_file($imagePath) .
-            $widthSignal .
-            $heightSignal .
+            $this->composeWidthSignal() .
+            $this->composeHeightSignal() .
             $this->composeCropSignal() .
             $this->obtainScaleSignal() .
             $this->fileSystem->obtainFileExtension($imagePath);
+    }
+
+    protected function composeWidthSignal() {
+        $width = $this->opts[self::WIDTH_KEY];
+        if (empty($width)) {
+            return '';
+        }
+
+        return '_w' . $width;
+    }
+
+    protected function composeHeightSignal() {
+        $height = $this->opts[self::HEIGHT_KEY];
+        if (empty($height)) {
+            return '';
+        }
+
+        return '_h' . $height;
     }
 
     protected function composeCropSignal() {
@@ -115,24 +130,6 @@ class Configuration {
         }
 
         return '_sc';
-    }
-
-    protected function composeWidthSignal() {
-        $width = $this->opts[self::WIDTH_KEY];
-        if (empty($width)) {
-            return '';
-        }
-
-        return '_w' . $width;
-    }
-
-    protected function composeHeightSignal() {
-        $height = $this->opts[self::HEIGHT_KEY];
-        if (empty($height)) {
-            return '';
-        }
-
-        return '_h' . $height;
     }
 
 }
