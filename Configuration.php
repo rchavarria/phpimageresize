@@ -99,7 +99,11 @@ class Configuration {
             return '';
         }
 
-        return $this->opts[self::CROP_KEY] == true ? '_cp' : '';
+        if ($this->opts[self::CROP_KEY] !== true) {
+            return '';
+        }
+
+        return '_cp';
     }
 
 }
