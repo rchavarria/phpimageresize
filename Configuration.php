@@ -9,6 +9,9 @@ class Configuration {
     const CACHE_MINUTES_KEY = 'cache_http_minutes';
     const WIDTH_KEY = 'width';
     const HEIGHT_KEY = 'height';
+    const CROP_KEY = 'crop';
+    const SCALE_KEY = 'scale';
+    const OUTPUT_FILENAME_KEY = 'output-filename';
 
     const CONVERT_PATH = 'convert';
 
@@ -19,12 +22,12 @@ class Configuration {
         $sanitized= $this->sanitize($opts);
 
         $defaults = array(
-            'crop' => false,
-            'scale' => 'false',
+            self::CROP_KEY => false,
+            self::SCALE_KEY => 'false',
             'thumbnail' => false,
             'maxOnly' => false,
             'canvas-color' => 'transparent',
-            'output-filename' => false,
+            self::OUTPUT_FILENAME_KEY => false,
             self::CACHE_KEY => self::CACHE_PATH,
             self::REMOTE_KEY => self::REMOTE_PATH,
             'quality' => 90,
@@ -74,20 +77,20 @@ class Configuration {
     }
     
     public function composeNewPath($imagePath) {
-        $w = $this->obtainWidth();
-        $h = $this->obtainHeight();
+        $w = $this->opts[self::WIDTH_KEY];
+        $h = $this->opts[self::HEIGHT_KEY];
         $filename = $this->fileSystem->md5_file($imagePath);
         $extension = $this->fileSystem->obtainFileExtension($imagePath);
 
-        $cropSignal = isset($this->opts['crop']) && $this->opts['crop'] == true ? "_cp" : "";
-        $scaleSignal = isset($this->opts['scale']) && $this->opts['scale'] == true ? "_sc" : "";
+        $cropSignal = isset($this->opts[self::CROP_KEY]) && $this->opts[self::CROP_KEY] == true ? "_cp" : "";
+        $scaleSignal = isset($this->opts[self::SCALE_KEY]) && $this->opts[self::SCALE_KEY] == true ? "_sc" : "";
         $widthSignal = !empty($w) ? '_w'.$w : '';
         $heightSignal = !empty($h) ? '_h'.$h : '';
 
         $newPath = $this->obtainCache() .$filename.$widthSignal.$heightSignal.$cropSignal.$scaleSignal.$extension;
 
-        if($this->opts['output-filename']) {
-            $newPath = $this->opts['output-filename'];
+        if($this->opts[self::OUTPUT_FILENAME_KEY]) {
+            $newPath = $this->opts[self::OUTPUT_FILENAME_KEY];
         }
 
         return $newPath;
