@@ -44,4 +44,22 @@ class ComposeNewPathTest extends PHPUnit_Framework_TestCase {
         $this->assertContains($expectedExtension, $newPath);
     }
 
+    public function testMarksPathAsCropped() {
+        $fs = $this->getMock('FileSystem');
+        $options = [ Configuration::CROP_KEY => true ];
+
+        $configuration = new Configuration($options, $fs);
+        $newPath = $configuration->composeNewPath('file-path.php');
+        $this->assertContains('_cp', $newPath);
+    }
+
+    public function testDoesNotMarkPathAsCropped() {
+        $fs = $this->getMock('FileSystem');
+        $options = [ Configuration::CROP_KEY => false ];
+
+        $configuration = new Configuration($options, $fs);
+        $newPath = $configuration->composeNewPath('file-path.php');
+        $this->assertNotContains('_cp', $newPath);
+    }
+
 }
