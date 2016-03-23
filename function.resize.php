@@ -10,6 +10,7 @@ function sanitize($path) {
 	return urldecode($path);
 }
 
+// TODO Move to Configuration
 function composeNewPath($imagePath, $configuration) {
 	$w = $configuration->obtainWidth();
 	$h = $configuration->obtainHeight();

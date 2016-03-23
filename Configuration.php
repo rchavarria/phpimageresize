@@ -13,8 +13,9 @@ class Configuration {
     const CONVERT_PATH = 'convert';
 
     private $opts;
+    private $fileSystem;
 
-    public function __construct($opts=array()) {
+    public function __construct($opts = [], FileSystem $fileSystem = null) {
         $sanitized= $this->sanitize($opts);
 
         $defaults = array(
@@ -32,6 +33,11 @@ class Configuration {
             'height' => null);
 
         $this->opts = array_merge($defaults, $sanitized);
+        
+        $this->fileSystem = $fileSystem;
+        if ($fileSystem === null) {
+            $this->fileSystem = new FileSystem();
+        }
     }
 
     public function asHash() {
@@ -66,5 +72,28 @@ class Configuration {
 
         return $opts;
     }
+    
+    public function composeNewPath($imagePath) {
+        $w = $this->obtainWidth();
+        $h = $this->obtainHeight();
+        $filename = $this->fileSystem->md5_file($imagePath);
+        // TODO Move obtainExtension() to FileSystem
+        $finfo = $this->fileSystem->pathinfo($imagePath);
+        $ext = $finfo['extension'];
 
+        $cropSignal = isset($this->opts['crop']) && $this->opts['crop'] == true ? "_cp" : "";
+        $scaleSignal = isset($this->opts['scale']) && $this->opts['scale'] == true ? "_sc" : "";
+        $widthSignal = !empty($w) ? '_w'.$w : '';
+        $heightSignal = !empty($h) ? '_h'.$h : '';
+        $extension = '.'.$ext;
+
+        $newPath = $this->obtainCache() .$filename.$widthSignal.$heightSignal.$cropSignal.$scaleSignal.$extension;
+
+        if($this->opts['output-filename']) {
+            $newPath = $this->opts['output-filename'];
+        }
+
+        return $newPath;
+    }
+    
 }
