@@ -26,8 +26,10 @@ class FileSystem {
         return md5_file($filename);
     }
     
-    public function pathinfo($filename) {
-        return pathinfo($filename);
+    public function obtainFileExtension($filename) {
+        $fileInformation = pathinfo($filename);
+        $ext = $fileInformation['extension'];
+        return '.' . $ext;
     }
     
 }

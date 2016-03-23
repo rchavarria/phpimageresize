@@ -4,7 +4,6 @@ class ComposeNewPathTest extends PHPUnit_Framework_TestCase {
 
     public function testCanBeConfiguredWithAnOption() {
         $fs = $this->getMock('FileSystem');
-        $fs->method('pathinfo')->willReturn([ 'extension' => 'php' ]);
         $expectedPath = 'new-path-to-the-heaven.php';
         $options = [ 'output-filename' => $expectedPath ];
 

@@ -77,15 +77,12 @@ class Configuration {
         $w = $this->obtainWidth();
         $h = $this->obtainHeight();
         $filename = $this->fileSystem->md5_file($imagePath);
-        // TODO Move obtainExtension() to FileSystem
-        $finfo = $this->fileSystem->pathinfo($imagePath);
-        $ext = $finfo['extension'];
+        $extension = $this->fileSystem->obtainFileExtension($imagePath);
 
         $cropSignal = isset($this->opts['crop']) && $this->opts['crop'] == true ? "_cp" : "";
         $scaleSignal = isset($this->opts['scale']) && $this->opts['scale'] == true ? "_sc" : "";
         $widthSignal = !empty($w) ? '_w'.$w : '';
         $heightSignal = !empty($h) ? '_h'.$h : '';
-        $extension = '.'.$ext;
 
         $newPath = $this->obtainCache() .$filename.$widthSignal.$heightSignal.$cropSignal.$scaleSignal.$extension;
 
