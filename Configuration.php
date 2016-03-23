@@ -86,7 +86,7 @@ class Configuration {
             $this->composeWidthSignal() .
             $this->composeHeightSignal() .
             $this->composeCropSignal() .
-            $this->obtainScaleSignal() .
+            $this->composeScaleSignal() .
             $this->fileSystem->obtainFileExtension($imagePath);
     }
 
@@ -120,7 +120,7 @@ class Configuration {
         return '_cp';
     }
 
-    protected function obtainScaleSignal() {
+    protected function composeScaleSignal() {
         if (!isset($this->opts[self::SCALE_KEY])) {
             return '';
         }
