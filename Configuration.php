@@ -82,8 +82,7 @@ class Configuration {
         }
 
         $widthSignal = $this->composeWidthSignal();
-        $h = $this->opts[self::HEIGHT_KEY];
-        $heightSignal = !empty($h) ? '_h'.$h : '';
+        $heightSignal = $this->composeHeightSignal();
 
         return $this->obtainCache() .
             $this->fileSystem->md5_file($imagePath) .
@@ -125,6 +124,13 @@ class Configuration {
         }
 
         return '_w' . $width;
+    }
+
+    protected function composeHeightSignal() {
+        $h = $this->opts[self::HEIGHT_KEY];
+        $heightSignal = !empty($h) ? '_h' . $h : '';
+
+        return $heightSignal;
     }
 
 }
