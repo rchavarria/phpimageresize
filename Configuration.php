@@ -112,7 +112,11 @@ class Configuration {
     }
 
     protected function obtainScaleSignal() {
-        return isset($this->opts[self::SCALE_KEY]) && $this->opts[self::SCALE_KEY] == true ? '_sc' : '';
+        if (!isset($this->opts[self::SCALE_KEY])) {
+            return '';
+        }
+
+        return $this->opts[self::SCALE_KEY] == true ? '_sc' : '';
     }
 
 }
