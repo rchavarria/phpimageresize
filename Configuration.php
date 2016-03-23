@@ -86,12 +86,16 @@ class Configuration {
         $filename = $this->fileSystem->md5_file($imagePath);
         $extension = $this->fileSystem->obtainFileExtension($imagePath);
 
-        $cropSignal = isset($this->opts[self::CROP_KEY]) && $this->opts[self::CROP_KEY] == true ? '_cp' : '';
+        $cropSignal = $this->composeCropSignal();
         $scaleSignal = isset($this->opts[self::SCALE_KEY]) && $this->opts[self::SCALE_KEY] == true ? '_sc' : '';
         $widthSignal = !empty($w) ? '_w'.$w : '';
         $heightSignal = !empty($h) ? '_h'.$h : '';
 
         return $this->obtainCache() . $filename . $widthSignal . $heightSignal . $cropSignal . $scaleSignal . $extension;
     }
-    
+
+    protected function composeCropSignal() {
+        return isset($this->opts[self::CROP_KEY]) && $this->opts[self::CROP_KEY] == true ? '_cp' : '';
+    }
+
 }
