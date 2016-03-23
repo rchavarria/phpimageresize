@@ -33,4 +33,15 @@ class ComposeNewPathTest extends PHPUnit_Framework_TestCase {
         $this->assertContains($computedMD5, $newPath);
     }
 
+    public function testKeepsFileExtension() {
+        $expectedExtension = '.php';
+        $fs = $this->getMock('FileSystem');
+        $fs->method('obtainFileExtension')->willReturn($expectedExtension);
+        $options = [];
+
+        $configuration = new Configuration($options, $fs);
+        $newPath = $configuration->composeNewPath('file-path.php');
+        $this->assertContains($expectedExtension, $newPath);
+    }
+
 }
